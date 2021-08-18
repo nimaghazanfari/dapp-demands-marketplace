@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import Layout from './components/Layout';
+import Home from './components/Home';
+import NavMenu from './components/NavMenu';
+import React, { useEffect, useState } from 'react';
 
-function App() {
+export const UserInfo = React.createContext();
+
+const App = () => {
+
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+
+    setTimeout(() => {
+      setUser({ isSignedIn: true })
+    }, 2000);
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserInfo.Provider value={user}>
+      <BrowserRouter>
+        <NavMenu />
+        <Switch>
+          <Layout>
+            <Route exact path='/' component={Home} />
+            <Route path='/home' component={Home} />
+            <Route path='/home2' component={Home} />
+          </Layout>
+        </Switch>
+      </BrowserRouter>
+    </UserInfo.Provider>
   );
+
 }
 
 export default App;
