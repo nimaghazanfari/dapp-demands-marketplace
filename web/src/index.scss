@@ -57,3 +57,32 @@ header {
     width: 100%;
   }
 }
+
+.home-page {
+  p {
+    font-family: cursive;
+    font-size: 45px;
+    font-weight: bold;
+    margin: -15px 0;
+  }
+
+  img {
+    width: 100%;
+    margin-top: 50px;
+  }
+
+  .desc-part {
+    margin-top: 100px;
+  }
+
+  .customer-part,
+  .expert-part {
+    height: 140px;
+    position: relative;
+    .d-grid {
+      position: absolute;
+      bottom: 0;
+      width: 95%;
+    }
+  }
+}
