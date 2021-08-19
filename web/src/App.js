@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import NavMenu from './components/NavMenu';
 import React, { useEffect, useState } from 'react';
+import LogIn from './components/LogIn';
 
 export const UserInfo = React.createContext();
 
@@ -24,6 +25,7 @@ const App = () => {
         <Switch>
           <Layout>
             <Route exact path='/' component={Home} />
+            <Route path="/login" component={LogIn} />
             <Route path='/home' component={Home} />
             <Route path='/home2' component={Home} />
           </Layout>

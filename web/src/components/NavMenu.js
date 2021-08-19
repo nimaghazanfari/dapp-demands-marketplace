@@ -14,9 +14,11 @@ const NavMenu = () => {
 
     return (
         <header>
-            <Navbar bg="dark" expand="lg" variant="dark">
+            <Navbar expand="lg" variant="dark">
                 <Container>
-                    <Navbar.Brand href="/">Favor</Navbar.Brand>
+                    <Navbar.Brand href="/">
+                        <img className="logo" src="../logo.PNG"/>
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav
