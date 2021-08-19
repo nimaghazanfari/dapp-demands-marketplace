@@ -19,7 +19,7 @@ router.post('/login', function (req, res, next) {
     res.send({ displayName, token });
   }
   else {
-    res.status(401).send('Invalid Username/Password!');
+    res.status(400).send('Invalid Username/Password!');
   }
 
 });
