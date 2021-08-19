@@ -13,7 +13,7 @@ const LogIn = () => {
     return (
         <div className="login-page">
             <Row className="justify-content-md-center">
-                <Col md={4}>
+                <Col md={5}>
                     <Card className="content">
                         <form onSubmit={(e) => login(e)}>
                             <h3>Sign In</h3>
