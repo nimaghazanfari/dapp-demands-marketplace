@@ -10,13 +10,15 @@ router.post('/login', function (req, res, next) {
   });
 
   if (result != null) {
-    
+
     const {
       displayName,
-      token
+      token,
+      wallet,
+      role
     } = result;
-    
-    res.send({ displayName, token });
+
+    res.send({ displayName, token, wallet, role });
   }
   else {
     res.status(400).send('Invalid Username/Password!');
