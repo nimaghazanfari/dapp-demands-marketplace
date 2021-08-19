@@ -1,21 +1,56 @@
-import { useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { useState, useContext } from "react";
+import { Card, Col, Row, Alert, Button } from "react-bootstrap";
+import { UserInfo } from "../App";
+import api from './general/api';
 
 const LogIn = () => {
+    const { user, setUser } = useContext(UserInfo);
+
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [result, setResult] = useState(false);
 
 
-    const login = e => {
-        e.preventDefault();
+    const login = async () => {
 
+        if (!username || !password) return;
+        const model = { username, password };
+
+        try {
+            const result = await api.post('users/login', model);
+            switch (result.status) {
+                case 200:
+                    setUser(result.data);
+                    localStorage.setItem('user',JSON.stringify(result.data));
+                    window.location.href = '/';
+                    break;
+                default:
+                    setResult({
+                        status: 'err',
+                        msg: result.data
+                    });
+                    break;
+            }
+        } catch (e) {
+            if (e.response) {
+                setResult({
+                    status: 'err',
+                    msg: e.response.data
+                });
+            }
+        } finally {
+            setTimeout(() => {
+                setResult(false)
+            }, 2500)
+        }
     }
+
     return (
         <div className="login-page">
             <Row className="justify-content-md-center">
                 <Col md={5}>
                     <Card className="content">
-                        <form onSubmit={(e) => login(e)}>
+                        <form noValidate >
                             <h3>Sign In</h3>
 
                             <div className="form-group">
@@ -33,11 +68,16 @@ const LogIn = () => {
                                 </div>
                             </div>
 
-                            <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                            <button type="button" onClick={login} className="btn btn-primary btn-block">Submit</button>
                             <p className="forgot-password text-end">
                                 Forgot <a href="#">password?</a>
                             </p>
                         </form>
+
+                        <Alert show={result} className="mt-4" variant={result.status == "ok" ? "success" : "danger"}>
+                            <p>{result.msg}</p>
+                        </Alert>
+
                     </Card>
                 </Col>
             </Row>

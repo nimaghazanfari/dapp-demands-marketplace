@@ -5,18 +5,23 @@ import NavMenu from './components/NavMenu';
 import React, { useEffect, useState } from 'react';
 import LogIn from './components/LogIn';
 
-export const UserInfo = React.createContext();
+export const UserInfo = React.createContext({
+  user: {},
+  setUser: () => { }
+});
 
 const App = () => {
 
-  const [user, setUser] = useState({});
+  const setUserState = newUser => {
+    setUser({ ...user, user: newUser });
+  }
 
-  useEffect(() => {
+  const initUser = {
+    user: {},
+    setUser: setUserState
+  }
 
-    setTimeout(() => {
-      setUser({ isSignedIn: true })
-    }, 2000);
-  })
+  const [user, setUser] = useState(initUser);
 
   return (
     <UserInfo.Provider value={user}>
@@ -25,7 +30,7 @@ const App = () => {
         <Switch>
           <Layout>
             <Route exact path='/' component={Home} />
-            <Route path="/login" component={LogIn} />
+            <Route path="/sign-in" component={LogIn} />
             <Route path='/home' component={Home} />
             <Route path='/home2' component={Home} />
           </Layout>
