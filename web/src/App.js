@@ -4,6 +4,8 @@ import Home from './components/Home';
 import NavMenu from './components/NavMenu';
 import React, { useEffect, useState } from 'react';
 import LogIn from './components/LogIn';
+import RequestCustomer from './components/RequestCustomer';
+import RequestExpert from './components/RequestExpert';
 
 export const UserInfo = React.createContext({
   user: {},
@@ -31,8 +33,8 @@ const App = () => {
           <Layout>
             <Route exact path='/' component={Home} />
             <Route path="/sign-in" component={LogIn} />
-            <Route path='/home' component={Home} />
-            <Route path='/home2' component={Home} />
+            <Route path='/request/customer' component={RequestCustomer} />
+            <Route path='/request/expert' component={RequestExpert} />
           </Layout>
         </Switch>
       </BrowserRouter>

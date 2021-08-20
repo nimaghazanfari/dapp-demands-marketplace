@@ -1,6 +1,15 @@
 import { Button, Col, Row } from 'react-bootstrap';
 
 const Home = () => {
+
+    const customerHandler = () => {
+        window.location.href = "/request/customer";
+    }
+
+    const expertHandler = () => {
+        window.location.href = "/request/expert";
+    }
+
     return (
         <div className="home-page">
             <Row>
@@ -16,14 +25,14 @@ const Home = () => {
                     <Row>
                         <Col md={5} className="customer-part">
                             <div className="d-grid gap-2">
-                                <Button variant="primary" size="lg">
+                                <Button variant="primary" size="lg" onClick={customerHandler}>
                                     For Customers
                                 </Button>
                             </div>
                         </Col>
                         <Col md={5} className="expert-part">
                             <div className="d-grid gap-2">
-                                <Button variant="success" size="lg">
+                                <Button variant="success" size="lg" onClick={expertHandler}>
                                     For Experts
                                 </Button>
                             </div>

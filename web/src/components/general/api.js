@@ -9,7 +9,9 @@ const API = {
             url: `${process.env.REACT_APP_ENDPOINT}/${api}`,
             data: data,
             headers: {
-                Authorization: header && JSON.parse(header).token
+                Authorization: header && JSON.parse(header).token,
+                user: header && JSON.parse(header).user,
+                role: header && JSON.parse(header).role
             }
         });
     }

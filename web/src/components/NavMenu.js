@@ -35,16 +35,22 @@ const NavMenu = () => {
                             style={{ maxHeight: '100px' }}
                             navbarScroll
                         >
-                            <Link className="nav-link" to="/Register/expert">Become an Expert</Link>
 
                             {user.displayName ?
-                                <NavDropdown title={`Welcome, ${user.displayName}`} id="navbarScrollingDropdown">
-                                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={signOut}>Sign out</NavDropdown.Item>
-                                </NavDropdown> :
                                 <>
+                                    {user.role !== "expert" ?
+                                        <Link className="nav-link" to="/Register/expert">Become an Expert</Link>
+                                        : null
+                                    }
+                                    <NavDropdown title={`Welcome, ${user.displayName}`} id="navbarScrollingDropdown">
+                                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                        <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+                                        <NavDropdown.Divider />
+                                        <NavDropdown.Item onClick={signOut}>Sign out</NavDropdown.Item>
+                                    </NavDropdown>
+                                </> :
+                                <>
+                                    <Link className="nav-link" to="/Register/expert">Become an Expert</Link>
                                     <Link className="nav-link" to="/sign-in">Sign In</Link>
                                     <Link className="nav-link" to="/register/customer">
                                         <Button variant="primary" size="sm">

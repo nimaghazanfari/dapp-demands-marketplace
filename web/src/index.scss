@@ -10,6 +10,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+button {
+  svg {
+    margin-right: 10px;
+  }
+}
+
 $navbar-color: #133c61;
 
 header {
@@ -83,6 +89,70 @@ header {
       position: absolute;
       bottom: 0;
       width: 95%;
+    }
+  }
+}
+
+.request-customer {
+  padding-top: 20px;
+
+  table {
+    margin-bottom: 0;
+  }
+
+  .request-part {
+    .request-item {
+      padding: 5px;
+      table {
+        tr {
+          td {
+            &:first-child {
+              width: 150px;
+            }
+
+            span {
+              white-space: pre;
+              min-height: 100px;
+              display: block;
+              overflow: auto;
+              background: #f3f3f3;
+              padding: 0 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.request-expert {
+  padding-top: 20px;
+
+  table {
+    margin-bottom: 0;
+  }
+
+  .request-part {
+    .request-item {
+      padding: 5px;
+      table {
+        tr {
+          td {
+            &:first-child {
+              width: 150px;
+            }
+
+            span {
+              white-space: pre;
+              min-height: 100px;
+              display: block;
+              overflow: auto;
+              background: #f3f3f3;
+              padding: 0 5px;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -17,12 +17,13 @@ const LogIn = () => {
         const model = { username, password };
 
         try {
-            const result = await api.post('users/login', model);
+            let result = await api.post('users/login', model);
             switch (result.status) {
                 case 200:
+                    result.data = { ...result.data, user: username };
                     setUser(result.data);
-                    localStorage.setItem('user',JSON.stringify(result.data));
-                    window.location.href = '/';
+                    localStorage.setItem('user', JSON.stringify(result.data));
+                    window.location.href = result.data.role === "customer" ? '/request/customer' : '/request/expert';
                     break;
                 default:
                     setResult({
