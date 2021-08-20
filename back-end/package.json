@@ -13,6 +13,9 @@
     "nodemon": "^2.0.12"
   },
   "devDependencies": {
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "mongo-express": "^1.0.0-alpha.4",
+    "mongoose": "^5.13.7",
+    "web3": "^1.5.2"
   }
 }
