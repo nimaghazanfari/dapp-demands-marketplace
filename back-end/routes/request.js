@@ -16,7 +16,7 @@ const getContract = () => {
 
   const json = JSON.parse(artifact);
   const networks = json.networks;
-  const addresss = networks[Object.keys(networks)[0]].address;
+  const addresss = networks[Object.keys(networks).slice(-1).pop()].address;
 
   const contract = new web3.eth.Contract(json.abi, addresss);
 
@@ -95,7 +95,7 @@ router.use(validateCustomer).post('/confirm', async (req, res, next) => {
 
       const owner = await getOwner();
       const contract = getContract();
-
+      
       try {
         //set price on each request into blockchain
         await Request.findOneAndUpdate(filter, { open: 4 });
@@ -103,6 +103,7 @@ router.use(validateCustomer).post('/confirm', async (req, res, next) => {
 
         res.send('ok');
       } catch (error) {
+        console.log(error)
         res.status(400).send('Error Happened!');
 
       }

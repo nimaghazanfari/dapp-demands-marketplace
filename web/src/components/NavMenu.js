@@ -43,7 +43,7 @@ const NavMenu = () => {
                                         : null
                                     }
                                     <NavDropdown title={`Welcome, ${user.displayName}`} id="navbarScrollingDropdown">
-                                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                                        <NavDropdown.Item href="#action3">Wallet [{user.wallet_short}]</NavDropdown.Item>
                                         <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
                                         <NavDropdown.Divider />
                                         <NavDropdown.Item onClick={signOut}>Sign out</NavDropdown.Item>

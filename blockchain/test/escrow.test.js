@@ -79,20 +79,6 @@ contract("Escrow", async (accounts) => {
 
         })
 
-        it('should NOT withdraw if user has NOT deposit', async () => {
-
-            //bob had no deposit
-            await (expect(escrow.withdraw(projectNumber, bob, {
-                from: owner
-            })).to.be.revertedWith("!value"));
-
-            //projectNumber 102 does NOT exist
-            await (expect(escrow.withdraw(102, alice, {
-                from: owner
-            })).to.be.revertedWith("!value"));
-
-        })
-
         it('should withdraw successfully', async () => {
 
             const balanceBeforeWithdraw = BigNumber.from(await web3.eth.getBalance(alice));
@@ -103,7 +89,7 @@ contract("Escrow", async (accounts) => {
 
             const balanceAfterWithdraw = BigNumber.from(await web3.eth.getBalance(alice));
 
-            const expectedValue = BigNumber.from((100 - commission) * 1500000 / 100);
+            const expectedValue = BigNumber.from((100 - commission) * 2500000 / 100);
 
             //1- expect emitted event 
             truffleAssert.eventEmitted(tx, 'Withdraw', obj => {

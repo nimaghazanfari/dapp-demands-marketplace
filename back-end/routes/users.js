@@ -18,7 +18,9 @@ router.post('/login', function (req, res, next) {
       role
     } = result;
 
-    res.send({ displayName, token, wallet, role });
+    const wallet_short = `${wallet.substring(0, 6)}...${wallet.slice(-4)}`;
+
+    res.send({ displayName, token, wallet, wallet_short, role });
   }
   else {
     res.status(400).send('Invalid Username/Password!');

@@ -13,7 +13,7 @@ contract Escrow {
     using Address for address payable;
 
     address _owner; //the owner of the contract
-    mapping(address => mapping(uint256 => uint256)) _deposits; // address => project number => amount
+    mapping(uint256 => uint256) _deposits; // project number => amount
     uint256 _commission;
 
     event Deposit(address from, uint256 value);
@@ -34,16 +34,16 @@ contract Escrow {
         require(projectNumber > 0, "!project");
 
         emit Deposit(msg.sender, msg.value);
-        _deposits[msg.sender][projectNumber] = _deposits[msg.sender][projectNumber].add(msg.value);
+        _deposits[projectNumber] = _deposits[projectNumber].add(msg.value);
     }
 
     function withdraw(uint256 projectNumber, address payee) external onlyOwner {
         require(projectNumber > 0, "!project");
         require(payee != address(0), "!address");
-        require(_deposits[payee][projectNumber] > 0, "!value");
+        require(_deposits[projectNumber] > 0, "!value");
 
-        uint256 value = (100 - _commission).mul(_deposits[payee][projectNumber]).div(100);
-        _deposits[payee][projectNumber] = 0;
+        uint256 value = (100 - _commission).mul(_deposits[projectNumber]).div(100);
+        _deposits[projectNumber] = 0;
         emit Withdraw(payee, projectNumber, value);
         payable(payee).sendValue(value);
     }

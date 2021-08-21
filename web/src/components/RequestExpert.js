@@ -97,7 +97,7 @@ const RequestExpert = () => {
                 <h5>My Doing List</h5>
                 <hr />
                 {!myRequests.length ?
-                    <Alert variant="secondary">No request found!</Alert> :
+                    <Alert variant="secondary">No requests found!</Alert> :
                     myRequests.map((item, idx) =>
                         <Alert key={idx} variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : "success"} className="request-item">
                             <Card>
@@ -152,7 +152,7 @@ const RequestExpert = () => {
                 <h5>All Available Requests</h5>
                 <hr />
                 {!requests.length ?
-                    <Alert variant="secondary">No request found!</Alert> :
+                    <Alert variant="secondary">No requests found!</Alert> :
                     requests.map((item, idx) =>
                         <Alert key={idx} variant={item.open === 1 ? "info" : item.open === 2 ? "info" : "success"} className="request-item">
                             <Card>

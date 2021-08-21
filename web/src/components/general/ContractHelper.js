@@ -30,8 +30,9 @@ const InitWeb3 = async () => {
     return MainProvider;
 };
 
-const GetContract = async (MainProvider) => {
+const GetContract = async () => {
 
+    let MainProvider = await InitWeb3();
     let artifact = await api.post("contract/get-abi");
 
     let contract = TruffleContract(artifact.data);
@@ -42,11 +43,8 @@ const GetContract = async (MainProvider) => {
 
 const ContractHelper = {
     init: async () => {
-
-        let MainProvider = await InitWeb3();
-
         return {
-            Escrow: await GetContract(MainProvider)
+            Escrow: await GetContract()
         }
     },
     getAccounts: async () => {

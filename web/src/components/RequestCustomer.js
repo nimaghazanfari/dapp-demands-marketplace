@@ -46,9 +46,9 @@ const RequestCustomer = () => {
 
         const contracts = await ContractHelper.init();
         const accounts = await ContractHelper.getAccounts();
-        const escrow = await contracts.Escrow.deployed();
 
         try {
+            const escrow = await contracts.Escrow.deployed({gasLimit: 21000});
 
             const projectNumber = new Date().getTime();
             const value = Web3.utils.toWei(ethers);
@@ -75,7 +75,9 @@ const RequestCustomer = () => {
                 reloadList();
             }
 
-        } catch (e) { }
+        } catch (e) {
+            console.log(e)
+         }
 
 
     }
@@ -142,7 +144,7 @@ const RequestCustomer = () => {
                 <h5>My Requests</h5>
                 <hr />
                 {!requests.length ?
-                    <Alert variant="secondary">No request found!</Alert> :
+                    <Alert variant="secondary">No requests found!</Alert> :
                     requests.map((item, idx) =>
                         <Alert key={idx} variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : item.open ===3 ? "danger" : "success"} className="request-item">
                             <Card>
