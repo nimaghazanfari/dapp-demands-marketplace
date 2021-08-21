@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Alert, Button, Card, Col, Row, Table } from "react-bootstrap";
+import { faSave, faCheck, faAddressBook, faAngleDoubleRight, faComment, faCommentAlt, faCommentDots, faPlus, faFlag, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { Alert, Button, Card, Col, Modal, Row, Table } from "react-bootstrap";
 import ContractHelper from "./general/ContractHelper";
 import api from './general/api';
 import Web3 from "web3";
@@ -12,6 +12,10 @@ const RequestCustomer = () => {
     const [title, setTitle] = useState();
     const [desc, setDesc] = useState();
     const [ethers, setEthers] = useState();
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const reloadList = async () => {
 
@@ -48,7 +52,7 @@ const RequestCustomer = () => {
         const accounts = await ContractHelper.getAccounts();
 
         try {
-            const escrow = await contracts.Escrow.deployed({gasLimit: 21000});
+            const escrow = await contracts.Escrow.deployed({ gasLimit: 21000 });
 
             const projectNumber = new Date().getTime();
             const value = Web3.utils.toWei(ethers);
@@ -73,11 +77,12 @@ const RequestCustomer = () => {
 
             if (result.status == 200) {
                 reloadList();
+                handleClose();
             }
 
         } catch (e) {
             console.log(e)
-         }
+        }
 
 
     }
@@ -99,10 +104,16 @@ const RequestCustomer = () => {
 
     return (
         <Row className="request-customer">
-            <Col md={5} className="request-new">
-                <h5>Create New Request</h5>
-                <hr />
-                <Card>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Create New Request</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <Table>
                         <tbody>
                             <tr>
@@ -126,76 +137,90 @@ const RequestCustomer = () => {
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div>
-                                        <Button variant="success" onClick={handleNewRequest}>
-                                            <FontAwesomeIcon icon={faSave} />
-                                            Send Request
-                                        </Button>
-                                    </div>
-                                </td>
-                            </tr>
                         </tbody>
                     </Table>
-                </Card>
-            </Col>
-            <Col md={7} className="request-part">
-                <h5>My Requests</h5>
-                <hr />
-                {!requests.length ?
-                    <Alert variant="secondary">No requests found!</Alert> :
-                    requests.map((item, idx) =>
-                        <Alert key={idx} variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : item.open ===3 ? "danger" : "success"} className="request-item">
-                            <Card>
-                                <Table>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                Title
-                                            </td>
-                                            <td>
-                                                {item.title}
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Payment wallet</td>
-                                            <td>{item.payer}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Payment amount</td>
-                                            <td>{item.ethers} ({Web3.utils.fromWei(item.ethers)} ETH)</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Status</td>
-                                            <td>
-                                                {item.open === 1 ? "Open" : item.open === 2 ? "In Progress" : item.open === 3 ? "Done" : "Completed"}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="success" onClick={handleNewRequest}>
+                        <FontAwesomeIcon icon={faSave} />
+                        Send Request
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-                                                {item.open === 3 ?
-                                                    <Button variant="primary" size="sm" className="float-end" onClick={() => confirmPayment(item.requestId)}>
-                                                        <FontAwesomeIcon icon={faCheck} />
-                                                        Confirm
-                                                    </Button>
-                                                    : null
-                                                }
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Description</td>
-                                            <td>
-                                                <span>
-                                                    {item.desc}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-                            </Card>
-                        </Alert>
-                    )
+            <Col md={12} className="request-part">
+
+                <Button variant="success" onClick={handleShow}>
+                    <FontAwesomeIcon icon={faPlus} />
+                    Create New Request
+                </Button>
+
+                <hr />
+
+                {!requests.length ?
+                    <Alert variant="primary">
+                        <span>
+                            You have no requests,<Button variant="link" onClick={handleShow}>create one!</Button>
+                        </span>
+                    </Alert> :
+
+                    <Row>
+                        {requests.map((item, idx) =>
+                            <Col key={idx} md={3}>
+                                <Alert variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : item.open === 3 ? "danger" : "success"} className="request-item">
+                                    <Card>
+                                        <Table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <FontAwesomeIcon icon={faCommentDots} style={{ color: "darkblue" }} />
+                                                        <p>
+                                                            {item.title}
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <FontAwesomeIcon icon={faAngleDoubleRight} />
+                                                        <p>
+                                                            {item.ethers} ({Web3.utils.fromWei(item.ethers)} ETH)
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        {item.open === 1 ? "Open" : item.open === 2 ? "In Progress" : item.open === 3 ? "Done" : "Completed"}
+
+                                                        {item.open === 3 ?
+                                                            <Button variant="primary" size="sm" className="float-end" onClick={() => confirmPayment(item.requestId)}>
+                                                                <FontAwesomeIcon icon={faCheck} />
+                                                                Confirm
+                                                            </Button>
+                                                            : null
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <span>
+                                                            {item.desc}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </Table>
+                                    </Card>
+                                </Alert>
+                            </Col>
+                        )}
+                    </Row>
                 }
+
             </Col>
-        </Row>
+        </Row >
     )
 }
 

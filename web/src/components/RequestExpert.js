@@ -53,7 +53,7 @@ const RequestExpert = () => {
     };
 
     useEffect(() => {
-        
+
         //fetch data for customer 
         reloadList();
         reloadMyList();
@@ -97,9 +97,9 @@ const RequestExpert = () => {
                 <h5>My Doing List</h5>
                 <hr />
                 {!myRequests.length ?
-                    <Alert variant="secondary">No requests found!</Alert> :
+                    <Alert variant="primary">Nothig to do!</Alert> :
                     myRequests.map((item, idx) =>
-                        <Alert key={idx} variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : "success"} className="request-item">
+                        <Alert key={idx} variant={item.open === 1 ? "warning" : item.open === 2 ? "info" : item.open === 3 ? "danger" : "success"} className="request-item">
                             <Card>
                                 <Table>
                                     <tbody>
@@ -122,7 +122,7 @@ const RequestExpert = () => {
                                         <tr>
                                             <td>Status</td>
                                             <td>
-                                                {item.open === 1 ? "Open" : item.open === 2 ? "In Progress" : "Done"}
+                                                {item.open === 1 ? "Open" : item.open === 2 ? "In Progress" : item.open === 3 ? "Done" : "Transfer Completed"}
 
                                                 {item.open === 2 ?
                                                     <Button variant="warning" size="sm" className="float-end" onClick={() => confirmDone(item.requestId)}>
@@ -152,7 +152,7 @@ const RequestExpert = () => {
                 <h5>All Available Requests</h5>
                 <hr />
                 {!requests.length ?
-                    <Alert variant="secondary">No requests found!</Alert> :
+                    <Alert variant="primary">Nothing new, please check later!</Alert> :
                     requests.map((item, idx) =>
                         <Alert key={idx} variant={item.open === 1 ? "info" : item.open === 2 ? "info" : "success"} className="request-item">
                             <Card>

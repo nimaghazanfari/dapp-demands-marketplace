@@ -3,7 +3,6 @@ const router = express.Router();
 const Request = require('../model/Request');
 const mockData = require('../basic_data/mock_users');
 
-
 const validateExpert = (req, res, next) => {
   const { authorization, role } = req.headers;
 
@@ -23,7 +22,7 @@ router.use(validateExpert).post('/mylist', async (req, res, nex) => {
 
   const { user } = req.headers;
   const doer = mockData.find(a => a.username === user).wallet;
-  const query = await Request.find({ doer, open: 2 });
+  const query = await Request.find({ doer, open: { $gte: 2 } });
 
   res.send(query)
 
