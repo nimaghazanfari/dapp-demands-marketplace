@@ -106,9 +106,10 @@ header {
       width: 300px;
       table {
         tr {
+          max-width: 285px;
           td {
             &:first-child {
-              width: 150px;
+              max-width: 150px;
             }
 
             p {

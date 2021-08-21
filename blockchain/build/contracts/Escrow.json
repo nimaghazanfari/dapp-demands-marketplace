@@ -67,7 +67,8 @@
       "name": "deposit",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -10026,10 +10027,29 @@
       "links": {},
       "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
       "transactionHash": "0x8455e55bd76f5ba302b9bb3087e23ea8e9d90fd5b470ff166a17855be0ed1b8f"
+    },
+    "1629563719974": {
+      "events": {},
+      "links": {},
+      "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
+      "transactionHash": "0x8455e55bd76f5ba302b9bb3087e23ea8e9d90fd5b470ff166a17855be0ed1b8f"
+    },
+    "1629564426770": {
+      "events": {},
+      "links": {},
+      "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
+      "transactionHash": "0x8455e55bd76f5ba302b9bb3087e23ea8e9d90fd5b470ff166a17855be0ed1b8f"
+    },
+    "1629564920701": {
+      "events": {},
+      "links": {},
+      "address": "0xCfEB869F69431e42cdB54A4F4f105C19C080A601",
+      "transactionHash": "0x8455e55bd76f5ba302b9bb3087e23ea8e9d90fd5b470ff166a17855be0ed1b8f"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-08-20T23:10:32.240Z",
+  "updatedAt": "2021-08-21T16:57:42.721Z",
+  "networkType": "ethereum",
   "devdoc": {
     "author": "Nima Ghazanfari",
     "details": "Each address has a separate payment for the fees of a requested task",
