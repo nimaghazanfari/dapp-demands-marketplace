@@ -45,6 +45,7 @@ const ContractHelper = {
     init: async () => {
         return {
             Escrow: await GetContract()
+            //could get other contracts too, if available
         }
     },
     getAccounts: async () => {

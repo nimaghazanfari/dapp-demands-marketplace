@@ -3,7 +3,7 @@ var router = express.Router();
 mockData = require('../basic_data/mock_users');
 const Web3 = require('web3');
 
-//default ganache-cli setup
+//connecting to ganache-cli
 const web3 = new Web3('http://localhost:8545');
 
 router.post('/login', function (req, res, next) {

@@ -8,7 +8,7 @@ const mockData = require('../basic_data/mock_users');
 
 const pathToAbi = path.resolve('../blockchain/build/contracts/Escrow.json');
 
-//default ganache-cli setup
+//connecting to ganache-cli
 const web3 = new Web3('http://localhost:8545');
 
 const getContract = () => {
@@ -45,7 +45,6 @@ router.use(validateCustomer).post('/new', async (req, res, next) => {
     tx,
     ethers,
     payer,
-    open,
     title,
     desc
   } = req.body;
@@ -56,7 +55,7 @@ router.use(validateCustomer).post('/new', async (req, res, next) => {
     payer,
     customer_username: user,
     ethers,
-    open,
+    open: 1,  //1. new request, 2. in progress, 3. checked, 4. confirmed
     title,
     desc
   });
@@ -91,14 +90,14 @@ router.use(validateCustomer).post('/confirm', async (req, res, next) => {
     const { requestId, doer, ethers } = query[0];
 
     if (doer && ethers) {
-      //pay the doer
 
       const owner = await getOwner();
       const contract = getContract();
-      
+
       try {
-        //set price on each request into blockchain
+        //set status in the DB
         await Request.findOneAndUpdate(filter, { open: 4 });
+        //pay the doer 
         await contract.methods.withdraw(requestId, doer).send({ from: owner });
 
         res.send('ok');
@@ -109,6 +108,12 @@ router.use(validateCustomer).post('/confirm', async (req, res, next) => {
       }
     }
   }
+
+})
+
+router.use(validateCustomer).post('/projectNum', async (req, res, next) => {
+
+  res.send(new Date().getTime());
 
 })
 

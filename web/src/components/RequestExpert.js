@@ -54,8 +54,9 @@ const RequestExpert = () => {
 
     useEffect(() => {
 
-        //fetch data for customer 
+        //fetch all the available data for every expert 
         reloadList();
+        //fetch personal data for current expert
         reloadMyList();
 
     }, []);

@@ -1,3 +1,6 @@
+//for simplicity reason, I'm using this data to query users' information
+//In a real world application, you can use a JWT Token for authentication
+
 const mockData = [{
     username: 'admin',
     password: 'admin',

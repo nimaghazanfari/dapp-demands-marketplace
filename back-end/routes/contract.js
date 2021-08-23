@@ -13,7 +13,7 @@ const validateUser = (req, res, next) => {
 
 const pathToAbi = path.resolve('../blockchain/build/contracts/Escrow.json');
 
-//first authorize, then do the job
+//first authorize, then send the contract info to UI
 router.use(validateUser).post('/get-abi', (req, res) => {
   res.header("Content-Type", 'application/json');
   res.sendFile(pathToAbi);

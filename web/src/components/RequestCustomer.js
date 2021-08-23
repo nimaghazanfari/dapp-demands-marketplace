@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faCheck, faAddressBook, faAngleDoubleRight, faComment, faCommentAlt, faCommentDots, faPlus, faFlag, faExclamation } from '@fortawesome/free-solid-svg-icons';
+import { faSave, faCheck, faAngleDoubleRight, faCommentDots, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Alert, Button, Card, Col, Modal, Row, Table } from "react-bootstrap";
 import ContractHelper from "./general/ContractHelper";
 import api from './general/api';
@@ -54,7 +54,8 @@ const RequestCustomer = () => {
         try {
             const escrow = await contracts.Escrow.deployed({ gasLimit: 21000 });
 
-            const projectNumber = new Date().getTime();
+            //get a new project number from server (it's simply a Date instance)
+            const projectNumber = (await api.post('requests/projectNum')).data;
             const value = Web3.utils.toWei(ethers);
 
             const tx = await escrow.deposit(projectNumber, {
@@ -64,11 +65,11 @@ const RequestCustomer = () => {
 
             const model = {
                 // customer_username: will be set
+                // open: it is always 1 when it's new
                 requestId: projectNumber,
                 tx: tx.tx,
                 ethers: value,
                 payer: accounts[0],
-                open: 1,
                 title,
                 desc
             }
