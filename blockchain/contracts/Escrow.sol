@@ -2,7 +2,6 @@
 pragma solidity ^0.8.6;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
 
 /// @title A contract which acts as a middleman for payments (Escrow)
 /// @author Nima Ghazanfari
@@ -10,11 +9,11 @@ import "@openzeppelin/contracts/utils/Address.sol";
 /// @dev Each address has a separate payment for the fees of a requested task
 contract Escrow {
     using SafeMath for uint256;
-    using Address for address payable;
 
     address _owner; //the owner of the contract
     mapping(uint256 => uint256) _deposits; // project number => amount
-    uint256 _commission;
+    uint256 _commission; //the perecent in which the owner will receive benefit
+    uint256 _totalStake; //the total amount of ethers the owner has
 
     event Deposit(address from, uint256 value);
     event Withdraw(address payee, uint256 project, uint256 value);
@@ -43,8 +42,19 @@ contract Escrow {
         require(_deposits[projectNumber] > 0, "!value");
 
         uint256 value = (100 - _commission).mul(_deposits[projectNumber]).div(100);
+        _totalStake += _deposits[projectNumber].sub(value);
         _deposits[projectNumber] = 0;
         emit Withdraw(payee, projectNumber, value);
-        payable(payee).sendValue(value);
+        (bool success, ) = payable(payee).call{value: value}("");
+        require(success);
+    }
+
+    function claimOwnerStake() external onlyOwner{
+        require(_totalStake > 0, "!value");
+        uint256 value = _totalStake;
+        _totalStake = 0;
+        emit Withdraw(_owner, 0, value);
+        (bool success, ) = payable(_owner).call{value: value}("");
+        require(success);
     }
 }

@@ -31,26 +31,34 @@ contract("Escrow", async (accounts) => {
         it('should NOT deposit if projectNumber = 0', async () => {
 
             await (expect(escrow.deposit(0, {
-                value: "1000000"
+                value: "1000000000000000"
             })).to.be.revertedWith("!project"));
+
+        })
+
+        it('should NOT let owner claim stake if totalStake = 0', async () => {
+
+            await (expect(escrow.claimOwnerStake({
+                from: owner
+            })).to.be.revertedWith("!value"));
 
         })
 
         it('should deposit successfully', async () => {
 
             const tx = await escrow.deposit(projectNumber, {
-                value: "1000000"
+                value: "1000000000000000"
             });
             const tx2 = await escrow.deposit(projectNumber, {
-                value: "1500000",
+                value: "1500000000000000",
                 from: alice
             });
 
             truffleAssert.eventEmitted(tx, 'Deposit', obj => {
-                return obj.from == owner && obj.value == "1000000"
+                return obj.from == owner && obj.value == "1000000000000000"
             });
             truffleAssert.eventEmitted(tx2, 'Deposit', obj => {
-                return obj.from == alice && obj.value == "1500000"
+                return obj.from == alice && obj.value == "1500000000000000"
             });
 
         })
@@ -89,7 +97,7 @@ contract("Escrow", async (accounts) => {
 
             const balanceAfterWithdraw = BigNumber.from(await web3.eth.getBalance(alice));
 
-            const expectedValue = BigNumber.from((100 - commission) * 2500000 / 100);
+            const expectedValue = BigNumber.from((100 - commission) * 2500000000000000 / 100);
 
             //1- expect emitted event 
             truffleAssert.eventEmitted(tx, 'Withdraw', obj => {
@@ -101,6 +109,25 @@ contract("Escrow", async (accounts) => {
 
             //3- expect another withdraw shows error
             await (expect(escrow.withdraw(projectNumber, alice, {
+                from: owner
+            })).to.be.revertedWith("!value"));
+
+        })
+
+        it("should claim owner's stake successfully", async () => {
+
+            const tx = await escrow.claimOwnerStake({from: owner});
+            
+            //1- expect emitted event 
+            truffleAssert.eventEmitted(tx, 'Withdraw', obj => {
+
+                expect(obj.value).not.eq(0); // totalStake
+
+                return obj.payee == owner && obj.project == 0;
+            });
+            
+            //2- expect another claim shows error
+            await (expect(escrow.claimOwnerStake({
                 from: owner
             })).to.be.revertedWith("!value"));
 
