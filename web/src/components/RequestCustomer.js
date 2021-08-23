@@ -55,7 +55,7 @@ const RequestCustomer = () => {
             const escrow = await contracts.Escrow.deployed({ gasLimit: 21000 });
 
             //get a new project number from server (it's simply a Date instance)
-            const projectNumber = (await api.post('requests/projectNum')).data;
+            const projectNumber = (await api.post('requests/projectNum')).data.num;
             const value = Web3.utils.toWei(ethers);
 
             const tx = await escrow.deposit(projectNumber, {

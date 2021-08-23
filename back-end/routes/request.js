@@ -113,7 +113,7 @@ router.use(validateCustomer).post('/confirm', async (req, res, next) => {
 
 router.use(validateCustomer).post('/projectNum', async (req, res, next) => {
 
-  res.send(new Date().getTime());
+  res.send({ num: new Date().getTime()});
 
 })
 
