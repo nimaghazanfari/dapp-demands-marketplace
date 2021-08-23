@@ -20,6 +20,19 @@ then you can `.exit`.
 Next, open another terminal and run this script: (I've installed [ganache-cli](https://www.npmjs.com/package/ganache-cli) globally)
 ### `ganache-cli -d -p 8545` 
 
+## Test Users
+
+#### Customer Role
+`username:` customer
+
+`password:` customer
+#### Expert Role
+`username:` expert
+
+`password:` expert
+
+
+
 ## Sequence Diagram
 ![Favor - Sequence](https://user-images.githubusercontent.com/24830643/130384449-579783cd-47a4-4d2a-adea-2f7564213c75.png)
 
